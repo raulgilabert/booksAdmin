@@ -13,7 +13,7 @@ const PORT = 8000
 
 // Creation of uploads directory if not exists
 
-var dir = 'files/uploads'
+const dir = 'files/uploads'
 
 if (!fs.existsSync(dir)){
     fs.mkdirSync(dir)
@@ -26,7 +26,7 @@ const app = express()
 app.use(fileUpload())
 
 // Parsers
-var rawParser = express.raw()
+const rawParser = express.raw()
 
 // Router
 // GET

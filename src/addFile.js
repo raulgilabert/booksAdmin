@@ -1,12 +1,14 @@
+const path = require("path")
+
 function addFile(req, res) {
     console.log(req.files)
 
     if (req.files) {
         // Get file and save it on the files directory
-        var file = req.files.file
-        var fileName = file.name
+        let file = req.files.file
+        let fileName = file.name
 
-        file.mv("files/uploads/" + fileName)
+        file.mv(path.join(__dirname, "../files/uploads/", fileName))
 
         res.status(200)
         res.send("File uploaded")
