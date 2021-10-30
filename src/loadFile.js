@@ -2,13 +2,16 @@ const fs = require("fs")
 const path = require("path")
 
 function loadFile(req, res) {
-    // req.url.split("/") returns an array ["", "file", filename]
-    var file = req.url.split("/")[2]
+    var url = req.url
 
-    // req.url.split("/") returns an array ["file/(filename without extension)", extension]
-    var extension = req.url.split(".")[1]
+    // url.split("/") returns an array ["", dir, filename]
+    var file = url.split("/")[2]
+    var dir = url.split("/")[1]
 
-    var filePath = path.join(__dirname, "../files/", file)
+    // url.split("/") returns an array ["(dir)/(filename without extension)", extension]
+    var extension = url.split(".")[1]
+
+    var filePath = path.join(__dirname, "../", dir, file)
     
     if (fs.existsSync(filePath)) {
         // Send file if exists
