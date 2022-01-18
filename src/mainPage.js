@@ -1,9 +1,9 @@
 // Modules
-const path = require("path")
+const path = require("path");
 
 // Main function
 function main(req, res) {
-    res.sendFile(path.join(__dirname, 'html/main.html'))
+    res.sendFile(path.join(__dirname, 'html/main.html'));
 }
 
-exports.main = main
+exports.main = main;

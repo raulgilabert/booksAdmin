@@ -1,33 +1,47 @@
-const fs = require("fs")
-const path = require("path")
+const fs = require("fs");
+const path = require("path");
 
 function loadFile(req, res) {
-    let url = req.url
+    // Get the url
+    let url = req.url;
 
-    // url.split("/") returns an array ["", dir, filename]
-    let file = url.split("/")[2]
-    let dir = url.split("/")[1]
+    // Array of the path divided by the directories
+    let urlSplit = url.split("/");
 
-    // url.split("/") returns an array ["(dir)/(filename without extension)", extension]
-    let extension = url.split(".")[1]
+    // Path of the files directory
+    let filePath = path.join(__dirname, "../files/");
 
-    let filePath = path.join(__dirname, "../", dir, file)
-    
+    // Add to the path the file
+    for (let i = 2; i < urlSplit.length; ++i) {
+        filePath = path.join(filePath, urlSplit[i]);
+    }
+
+    // Print requested files path
+    console.log("Requested file: " + filePath);
+
+    // Get the extension of the file to return the "content-type"
+    let extension = filePath.split(".")[1];
+
     if (fs.existsSync(filePath)) {
         // Send file if exists
         fs.readFile(filePath, function (err, data) {
-            res.writeHead(200, {"content-type" : "text/" + extension})
-            res.write(data)
-            res.end()
+            if (extension === "js") {
+                res.writeHead(200, {"content-type": "application/javascript"});
+            }
+            else {
+                res.writeHead(200, {"content-type": "text/" + extension});
+            }
+            res.write(data);
+            res.end();
         })
     }
 
     else {
         // Send 404 if file not found
-        res.writeHead(404, {"content-type": "text/html"})
-        res.write("Error 404, file not found")
-        res.end()
+        res.writeHead(404, {"content-type": "text/html"});
+        res.write("Error 404, file not found");
+        res.end();
     }
 }
 
-exports.loadFile = loadFile
+exports.loadFile = loadFile;
