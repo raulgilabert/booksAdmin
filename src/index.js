@@ -30,10 +30,16 @@ const rawParser = express.raw();
 // GET
 app.get("/", main.main);
 app.get("/file/*", loadFile.loadFile);
-//app.get("/getData", getData.getData);
 
 //POST
 app.post("/file", rawParser, addFile.addFile);
+
+
+
+// API
+app.get("/api/files", getData.getData);
+app.get("/api/file", getData.getFiltered);
+
 
 // Listener
 app.listen(PORT);
